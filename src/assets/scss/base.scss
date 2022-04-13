@@ -1,0 +1,152 @@
+:root {
+  --primary-1: #3498db;
+  --primary-2: #2980b9;
+  --danger-1: #e74c3c;
+  --danger-2: #c0392b;
+  --success-1: #2ecc71;
+  --success-2: #27ae60;
+  --white: #fff;
+  --gray-1: #f6f6f6;
+  --gray-2: #ddd;
+  --gray-3: #34495e;
+  --text-color: #333;
+  --text-primary-color: var(--white);
+
+  --border: 1px solid var(--gray-2);
+  --border-radius: 5px;
+
+  --font-family: 'Roboto', sans-serif;
+}
+
+// RESET
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+body {
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-family);
+  color: var(--text-color);
+  background-color: var(--gray-1);
+}
+
+// FLEX
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+.flex-col {
+  flex-direction: column;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.flex-1 {
+  flex: 1 1 auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+// PADDING
+@for $i from 1 through 5 {
+  .p-#{$i * 10} {
+    padding: 10px * $i;
+  }
+}
+// PADDING INLINE
+@for $i from 1 through 5 {
+  .px-#{$i * 10} {
+    padding-inline: 10px * $i;
+  }
+}
+// MARGIN
+@for $i from 1 through 5 {
+  .m-#{$i * 10} {
+    margin: 10px * $i;
+  }
+}
+// MARGIN BOTTOM
+@for $i from 1 through 5 {
+  .mb-#{$i * 10} {
+    margin-bottom: 10px * $i;
+  }
+}
+// MARGIN RIGHT
+@for $i from 1 through 5 {
+  .mr-#{$i * 10} {
+    margin-right: 10px * $i;
+  }
+}
+
+// BUTTONS
+.btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: var(--border-radius);
+  font: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &-primary {
+    background-color: var(--primary-1);
+    color: var(--text-primary-color);
+
+    &:hover {
+      background-color: var(--primary-2);
+    }
+  }
+
+  &-danger {
+    background-color: var(--danger-1);
+    color: var(--text-primary-color);
+
+    &:hover {
+      background-color: var(--danger-2);
+    }
+  }
+
+  &-success {
+    background-color: var(--success-1);
+    color: var(--text-primary-color);
+
+    &:hover {
+      background-color: var(--success-2);
+    }
+  }
+}
