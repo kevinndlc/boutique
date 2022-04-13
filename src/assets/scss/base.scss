@@ -55,6 +55,12 @@ body {
   background-color: var(--gray-1);
 }
 
+input {
+  border: var(--border);
+  border-radius: var(--border-radius);
+  padding: 8px 15px;
+}
+
 // FLEX
 .flex {
   display: flex;

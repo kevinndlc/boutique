@@ -1,3 +1,5 @@
+import type { ProductIntf } from "@/interfaces";
+
 export default [
   {
     id: 1,
@@ -6,6 +8,7 @@ export default [
     price: 1500,
     description:
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendusincidunt a eum ad recusandae et sequi?',
+    category: 'desktop',
   },
   {
     id: 2,
@@ -14,6 +17,7 @@ export default [
     price: 1200,
     description:
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendusincidunt a eum ad recusandae et sequi?',
+    category: 'gamer',
   },
   {
     id: 3,
@@ -22,6 +26,7 @@ export default [
     price: 900,
     description:
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendusincidunt a eum ad recusandae et sequi?',
+    category: 'gamer',
   },
   {
     id: 4,
@@ -30,6 +35,7 @@ export default [
     price: 1500,
     description:
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendusincidunt a eum ad recusandae et sequi?',
+    category: 'streaming',
   },
   {
     id: 5,
@@ -38,6 +44,7 @@ export default [
     price: 1200,
     description:
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendusincidunt a eum ad recusandae et sequi?',
+    category: 'desktop',
   },
   {
     id: 6,
@@ -46,6 +53,7 @@ export default [
     price: 900,
     description:
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendusincidunt a eum ad recusandae et sequi?',
+    category: 'desktop',
   },
   {
     id: 7,
@@ -54,6 +62,7 @@ export default [
     price: 1500,
     description:
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendusincidunt a eum ad recusandae et sequi?',
+    category: 'desktop',
   },
   {
     id: 8,
@@ -62,6 +71,7 @@ export default [
     price: 1200,
     description:
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendusincidunt a eum ad recusandae et sequi?',
+    category: 'streaming',
   },
   {
     id: 9,
@@ -70,6 +80,7 @@ export default [
     price: 900,
     description:
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendusincidunt a eum ad recusandae et sequi?',
+    category: 'streaming',
   },
   {
     id: 10,
@@ -78,6 +89,7 @@ export default [
     price: 1500,
     description:
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendusincidunt a eum ad recusandae et sequi?',
+    category: 'gamer',
   },
   {
     id: 11,
@@ -86,6 +98,7 @@ export default [
     price: 1200,
     description:
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendusincidunt a eum ad recusandae et sequi?',
+    category: 'desktop',
   },
   {
     id: 12,
@@ -94,6 +107,7 @@ export default [
     price: 900,
     description:
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendusincidunt a eum ad recusandae et sequi?',
+    category: 'gamer',
   },
   {
     id: 13,
@@ -102,6 +116,7 @@ export default [
     price: 1500,
     description:
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendusincidunt a eum ad recusandae et sequi?',
+    category: 'streaming',
   },
   {
     id: 14,
@@ -110,6 +125,7 @@ export default [
     price: 1200,
     description:
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendusincidunt a eum ad recusandae et sequi?',
+    category: 'streaming',
   },
   {
     id: 15,
@@ -118,5 +134,6 @@ export default [
     price: 900,
     description:
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendusincidunt a eum ad recusandae et sequi?',
+    category: 'desktop',
   },
-];
+] as ProductIntf[];

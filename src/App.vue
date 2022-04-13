@@ -7,14 +7,22 @@ import TheFooter from '@/components/Footer.vue';
 import data from './data/products';
 
 import { computed, reactive, watchEffect } from 'vue';
-import type { ProductIntf, ProductCartIntf } from './interfaces';
+import type { ProductIntf, ProductCartIntf, FiltersIntf, FilterUpdateIntf } from './interfaces';
+
+const DEFAULT_FILTERS: FiltersIntf = {
+  search: '',
+  priceRange: [0, 10000],
+  category: 'all',
+}
 
 const state = reactive<{
   products: ProductIntf[];
   cart: ProductCartIntf[];
+  filters: FiltersIntf;
 }>({
   products: data,
   cart: [],
+  filters: { ...DEFAULT_FILTERS },
 });
 
 const addProductToCart = (productId: number): void => {
@@ -44,22 +52,54 @@ const removeProductFromCart = (productId: number): void => {
   }
 };
 
-const cartEmpty = computed(() => state.cart.length === 0)
+const updateFilter = (filterUpdate: FilterUpdateIntf): void => {
+  if (filterUpdate.search !== undefined) {
+    state.filters.search = filterUpdate.search;
+  } else if (filterUpdate.priceRange) {
+    state.filters.priceRange = filterUpdate.priceRange;
+  } else if (filterUpdate.category) {
+    state.filters.category = filterUpdate.category;
+  } else {
+    state.filters = { ...DEFAULT_FILTERS }
+  }
+}
 
-const appElement = document.getElementById('app') as HTMLDivElement
+const filteredProducts = computed(() => {
+  return state.products.filter((product) => {
+    if (
+      product.title
+        .toLowerCase()
+        .startsWith(state.filters.search.toLowerCase()) &&
+      product.price >= state.filters.priceRange[0] &&
+      product.price <= state.filters.priceRange[1] &&
+      (product.category === state.filters.category ||
+        state.filters.category === 'all')
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+});
+
+const cartEmpty = computed(() => state.cart.length === 0);
+
+const appElement = document.getElementById('app') as HTMLDivElement;
 watchEffect(() => {
   if (cartEmpty.value) {
-    appElement.classList.add('gridEmpty')
+    appElement.classList.add('gridEmpty');
   } else {
-    appElement.classList.remove('gridEmpty')
+    appElement.classList.remove('gridEmpty');
   }
-})
+});
 </script>
 
 <template>
   <TheHeader class="header" />
   <Shop
-    :products="state.products"
+    :products="filteredProducts"
+    :filters="state.filters"
+    @update-filter="updateFilter"
     @add-product-to-cart="addProductToCart"
     class="shop"
   />
@@ -88,10 +128,10 @@ watchEffect(() => {
 
   &.gridEmpty {
     grid-template-areas:
-    'header'
-    'shop'
-    'footer';
-  grid-template-columns: 100%
+      'header'
+      'shop'
+      'footer';
+    grid-template-columns: 100%;
   }
 
   .header {
