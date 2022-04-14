@@ -16,7 +16,7 @@ const emit = defineEmits<{
     <strong class="mr-10">{{ product.title }}</strong>
     <span class="flex-1 mr-10">x{{ product.quantity }}</span>
     <span class="mr-10">Prix: {{ product.price.toLocaleString() }}€</span>
-    <button @click="emit('removeProductFromCart', product.id)" class="btn btn-danger">Supprimer</button>
+    <button @click="emit('removeProductFromCart', product.id)" class="btn btn-danger">X</button>
   </div>
 </template>
 

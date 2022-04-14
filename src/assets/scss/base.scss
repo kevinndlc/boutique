@@ -55,10 +55,25 @@ body {
   background-color: var(--gray-1);
 }
 
-input {
+input,
+textarea,
+select {
   border: var(--border);
   border-radius: var(--border-radius);
   padding: 8px 15px;
+  resize: none;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-3)
+}
+
+.form-error {
+  color: var(--danger-1);
+  font-size: 14px;
+  font-weight: 500;
 }
 
 // FLEX
@@ -113,6 +128,10 @@ input {
     margin-bottom: 10px * $i;
   }
 }
+
+.mb-5 {
+  margin-bottom: 5px;
+}
 // MARGIN RIGHT
 @for $i from 1 through 5 {
   .mr-#{$i * 10} {
@@ -155,4 +174,12 @@ input {
       background-color: var(--success-2);
     }
   }
+}
+
+// CARD
+.card {
+  border: var(--border);
+  border-radius: var(--border-radius);
+  background-color: var(--white);
+  padding: 30px;
 }

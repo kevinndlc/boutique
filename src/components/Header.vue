@@ -1,4 +1,14 @@
-<script lang="ts" setup>
+<script setup lang="ts">
+import type { Page } from '@/interfaces';
+
+
+defineProps<{
+  page: Page
+}>()
+
+const emit = defineEmits<{
+  (e: 'navigate', page: Page): void
+}>()
 
 </script>
 
@@ -9,12 +19,12 @@
       <span class="logo">Dyma</span>
     </a>
     <ul class="flex-1 flex">
-      <li class="mr-10"><a href="#">Shop</a></li>
-      <li><a href="#">Admin</a></li>
+      <li class="mr-10"><a :class="{ active: page === 'Boutique' }" @click="emit('navigate', 'Boutique')">Boutique</a></li>
+      <li><a :class="{ active: page === 'Admin' }" @click="emit('navigate', 'Admin')">Admin</a></li>
     </ul>
     <ul class="flex">
-      <li class="mr-10"><a href="#">Inscription</a></li>
-      <li><a href="#">Connexion</a></li>
+      <li class="mr-10"><a>Inscription</a></li>
+      <li><a>Connexion</a></li>
     </ul>
   </header>
 </template>
@@ -25,6 +35,12 @@ header {
   color: var(--text-primary-color);
 
   a {
+    cursor: pointer;
+
+    &.active {
+      text-decoration: underline;
+    }
+
     img {
       width: 20px;
       margin-right: 5px;

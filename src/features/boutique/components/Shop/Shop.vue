@@ -15,7 +15,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <main class="flex">
+  <div class="shop flex">
     <ShopFilters
       :filters="filters"
       :nbr-of-products="products.length"
@@ -27,11 +27,11 @@ const emit = defineEmits<{
       @add-product-to-cart="emit('addProductToCart', $event)"
       :products="products"
     />
-  </main>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-main {
+.shop {
   align-items: flex-start;
 }
 
