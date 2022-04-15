@@ -9,7 +9,7 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: 'addProductToCart', productId: number): void;
+  (e: 'addProductToCart', productId: string): void;
   (e: 'updateFilter', updateFilter: FilterUpdateIntf): void;
 }>();
 </script>
@@ -23,7 +23,7 @@ const emit = defineEmits<{
       class="shop-filter"
     />
     <ShopProductList
-      class="shop-product-list flex-1"
+      class="scrollable flex-1"
       @add-product-to-cart="emit('addProductToCart', $event)"
       :products="products"
     />
@@ -35,7 +35,8 @@ const emit = defineEmits<{
   align-items: flex-start;
 }
 
-.shop-product-list {
+.scrollable {
   overflow-y: auto;
+  height: calc(100vh - 96px)
 }
 </style>

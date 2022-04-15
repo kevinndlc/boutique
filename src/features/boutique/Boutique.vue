@@ -18,16 +18,23 @@ const state = reactive<{
   cart: ProductCartIntf[];
   filters: FiltersIntf;
 }>({
-  products: data,
+  products: [],
   cart: [],
   filters: { ...DEFAULT_FILTERS },
 });
 
-const addProductToCart = (productId: number): void => {
-  const product = state.products.find((product) => product.id === productId);
+const products = await (await fetch('https://restapi.fr/api/products')).json()
+if (Array.isArray(products)) {
+  state.products = products;
+} else {
+  state.products = [ products ]
+}
+
+const addProductToCart = (productId: string): void => {
+  const product = state.products.find((product) => product._id === productId);
   if (product) {
     const productInCart = state.cart.find(
-      (product) => product.id === productId
+      (product) => product._id === productId
     );
     if (productInCart) {
       productInCart.quantity++;
@@ -37,13 +44,13 @@ const addProductToCart = (productId: number): void => {
   }
 };
 
-const removeProductFromCart = (productId: number): void => {
+const removeProductFromCart = (productId: string): void => {
   const productFromCart = state.cart.find(
-    (product) => product.id === productId
+    (product) => product._id === productId
   );
   if (productFromCart) {
     if (productFromCart.quantity === 1) {
-      state.cart = state.cart.filter((product) => product.id !== productId);
+      state.cart = state.cart.filter((product) => product._id !== productId);
     } else {
       productFromCart.quantity--;
     }
@@ -114,7 +121,7 @@ watchEffect(() => {
 <style scoped lang="scss">
   .boutique-container {
     display: grid;
-    grid-template-columns: 80% 20%;
+    grid-template-columns: 75% 25%;
 
     &.grid-empty {
       grid-template-columns: 100%;

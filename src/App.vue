@@ -9,7 +9,7 @@ import type { Page } from './interfaces';
 const state = reactive<{
   page: Page
 }>({
-  page: 'Admin'
+  page: 'Boutique'
 })
 
 const pages: { [s: string]: C } = {
@@ -25,7 +25,9 @@ const navigate = (page: Page): void => {
 <template>
   <TheHeader @navigate="navigate" :page="state.page" class="header" />
   <main class="main">
-    <Component :is="pages[state.page]" />
+    <Suspense>
+      <Component :is="pages[state.page]" />
+    </Suspense>
   </main>
   <TheFooter class="footer" />
 </template>
@@ -35,13 +37,13 @@ const navigate = (page: Page): void => {
 @import './assets/scss/debug.scss';
 
 #app {
-  min-height: 100vh;
+  height: 100vh;
   display: grid;
   grid-template-areas:
     'header'
     'content'
     'footer';
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: 48px 1fr 48px;
 
   .header {
     grid-area: header;
