@@ -1,20 +1,48 @@
 <script lang="ts" setup>
 import type { ProductIntf } from '@/interfaces';
-import ShopProduct from './ShopProduct.vue'
+import { pageKey } from '@/shared/injectionKeys/pageKey';
+import { inject, onUpdated, ref, watch } from 'vue';
+import ShopProduct from './ShopProduct.vue';
 
 defineProps<{
-  products: ProductIntf[]
-}>()
+  products: ProductIntf[];
+  moreResults: boolean;
+}>();
 
 const emit = defineEmits<{
-  (e: 'addProductToCart', productId: string): void
-}>()
+  (e: 'addProductToCart', productId: string): void;
+  (e: 'incPage'): void;
+}>();
 
+const page = inject(pageKey)!;
+const scrollableDiv = ref<HTMLDivElement | null>(null);
+
+watch(page, () => {
+  if (page.value === 1) {
+    scrollableDiv.value?.scrollTo(0, 0);
+  }
+});
 </script>
 
 <template>
-  <div class="grid p-20">
-    <ShopProduct @add-product-to-cart="emit('addProductToCart', $event)" v-for="product of products" :product="product" :key="product._id" />
+  <div ref="scrollableDiv" class="flex flex-col p-20">
+    <div class="grid mb-20">
+      <ShopProduct
+        @add-product-to-cart="emit('addProductToCart', $event)"
+        v-for="product of products"
+        :product="product"
+        :key="product._id"
+      />
+    </div>
+    <div class="flex items-center justify-center">
+      <button
+        v-if="moreResults"
+        @click="emit('incPage')"
+        class="btn btn-primary"
+      >
+        Charger + de produits
+      </button>
+    </div>
   </div>
 </template>
 

@@ -1,5 +1,3 @@
-import type { ProductIntf } from "@/interfaces";
-
 export default [
   {
     id: 1,
@@ -136,4 +134,4 @@ export default [
       'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendusincidunt a eum ad recusandae et sequi?',
     category: 'desktop',
   },
-] as ProductIntf[];
+]

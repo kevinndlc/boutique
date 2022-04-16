@@ -13,7 +13,7 @@ const emit = defineEmits<{
 
 <template>
   <div class="product flex flex-col">
-    <img :src="product.image" alt="Macbook Pro" class="product-image" />
+    <img :src="product.image" alt="" class="product-image" />
     <div class="p-10 flex flex-col">
       <h4>{{ product.title }}</h4>
       <p>{{ product.description }}</p>
@@ -33,7 +33,7 @@ const emit = defineEmits<{
   height: 100%;
 
   &-image {
-    object-fit: contain;
+    object-fit: cover;
     object-position: center;
     height: 200px;
   }

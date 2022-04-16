@@ -5,6 +5,9 @@ import Boutique from '@/features/boutique/Boutique.vue';
 import Admin from '@/features/admin/Admin.vue';
 import { reactive, type Component as C } from 'vue';
 import type { Page } from './interfaces';
+import { seed40Products } from './data/seed';
+
+// seed40Products('shop')
 
 const state = reactive<{
   page: Page

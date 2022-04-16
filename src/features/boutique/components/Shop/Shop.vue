@@ -6,11 +6,13 @@ import ShopFilters from './ShopFilters.vue';
 defineProps<{
   products: ProductIntf[];
   filters: FiltersIntf;
+  moreResults: boolean
 }>();
 
 const emit = defineEmits<{
   (e: 'addProductToCart', productId: string): void;
   (e: 'updateFilter', updateFilter: FilterUpdateIntf): void;
+  (e: 'incPage'): void;
 }>();
 </script>
 
@@ -25,7 +27,9 @@ const emit = defineEmits<{
     <ShopProductList
       class="scrollable flex-1"
       @add-product-to-cart="emit('addProductToCart', $event)"
+      @inc-page="emit('incPage')"
       :products="products"
+      :more-results="moreResults"
     />
   </div>
 </template>
@@ -37,6 +41,6 @@ const emit = defineEmits<{
 
 .scrollable {
   overflow-y: auto;
-  height: calc(100vh - 96px)
+  height: calc(100vh - 96px);
 }
 </style>

@@ -2,33 +2,60 @@
 import Shop from './components/Shop/Shop.vue';
 import Cart from './components/Cart/Cart.vue';
 
-import data from '../../data/products';
-
-import { computed, reactive, watchEffect } from 'vue';
-import type { ProductIntf, ProductCartIntf, FiltersIntf, FilterUpdateIntf } from '../../interfaces';
+import { computed, provide, reactive, toRef, watch, watchEffect } from 'vue';
+import type {
+  ProductIntf,
+  ProductCartIntf,
+  FiltersIntf,
+  FilterUpdateIntf,
+} from '../../interfaces';
+import { fetchProducts } from '@/shared/services/product.service';
+import { pageKey } from '@/shared/injectionKeys/pageKey';
 
 const DEFAULT_FILTERS: FiltersIntf = {
   search: '',
   priceRange: [0, 10000],
   category: 'all',
-}
+};
 
 const state = reactive<{
   products: ProductIntf[];
   cart: ProductCartIntf[];
   filters: FiltersIntf;
+  page: number;
+  isLoading: boolean;
+  moreResults: boolean
 }>({
   products: [],
   cart: [],
   filters: { ...DEFAULT_FILTERS },
+  page: 1,
+  isLoading: false,
+  moreResults: true
 });
 
-const products = await (await fetch('https://restapi.fr/api/products')).json()
-if (Array.isArray(products)) {
-  state.products = products;
-} else {
-  state.products = [ products ]
-}
+provide(pageKey, toRef(state, 'page'))
+
+watch(state.filters, () => {
+  state.products = []
+  state.page = 1
+})
+
+watchEffect(async () => {
+  state.isLoading = true
+  const products = await fetchProducts(state.filters, state.page);
+  if (Array.isArray(products)) {
+    state.products = [...state.products, ...products];
+    if (products.length < 20) {
+      state.moreResults = false
+    } else {
+      state.moreResults = true
+    }
+  } else {
+    state.products = [...state.products, products];
+  }
+  state.isLoading = false
+});
 
 const addProductToCart = (productId: string): void => {
   const product = state.products.find((product) => product._id === productId);
@@ -65,20 +92,16 @@ const updateFilter = (filterUpdate: FilterUpdateIntf): void => {
   } else if (filterUpdate.category) {
     state.filters.category = filterUpdate.category;
   } else {
-    state.filters = { ...DEFAULT_FILTERS }
+    state.filters = { ...DEFAULT_FILTERS };
   }
-}
+};
 
 const filteredProducts = computed(() => {
   return state.products.filter((product) => {
     if (
       product.title
         .toLowerCase()
-        .startsWith(state.filters.search.toLowerCase()) &&
-      product.price >= state.filters.priceRange[0] &&
-      product.price <= state.filters.priceRange[1] &&
-      (product.category === state.filters.category ||
-        state.filters.category === 'all')
+        .startsWith(state.filters.search.toLowerCase())
     ) {
       return true;
     } else {
@@ -100,13 +123,14 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="boutique-container"
-  :class="{ 'grid-empty': cartEmpty }">
+  <div class="boutique-container" :class="{ 'grid-empty': cartEmpty }">
     <Shop
       :products="filteredProducts"
       :filters="state.filters"
+      :more-results="state.moreResults"
       @update-filter="updateFilter"
       @add-product-to-cart="addProductToCart"
+      @inc-page="state.page++"
       class="shop"
     />
     <Cart
@@ -119,17 +143,17 @@ watchEffect(() => {
 </template>
 
 <style scoped lang="scss">
-  .boutique-container {
-    display: grid;
-    grid-template-columns: 75% 25%;
+.boutique-container {
+  display: grid;
+  grid-template-columns: 75% 25%;
 
-    &.grid-empty {
-      grid-template-columns: 100%;
-    }
-
-    .cart {
-      background-color: var(--white);
-      border-left: var(--border);
-    }
+  &.grid-empty {
+    grid-template-columns: 100%;
   }
+
+  .cart {
+    background-color: var(--white);
+    border-left: var(--border);
+  }
+}
 </style>
