@@ -18,18 +18,23 @@ const emit = defineEmits<{
       <img src="../assets/logo.svg" alt="Vue.js Logo">
       <span class="logo">Dyma</span>
     </a>
-    <ul class="flex-1 flex">
-      <li class="mr-10"><a :class="{ active: page === 'Boutique' }" @click="emit('navigate', 'Boutique')">Boutique</a></li>
-      <li><a :class="{ active: page === 'Admin' }" @click="emit('navigate', 'Admin')">Admin</a></li>
-    </ul>
-    <ul class="flex">
-      <li class="mr-10"><a>Inscription</a></li>
-      <li><a>Connexion</a></li>
-    </ul>
+    <div class="flex justify-center items-center flex-1">
+      <ul class="flex-1 flex hide-xs">
+        <li class="mr-10"><a :class="{ active: page === 'Boutique' }" @click="emit('navigate', 'Boutique')">Boutique</a></li>
+        <li><a :class="{ active: page === 'Admin' }" @click="emit('navigate', 'Admin')">Admin</a></li>
+      </ul>
+      <ul class="flex hide-xs">
+        <li class="mr-10"><a>Inscription</a></li>
+        <li><a>Connexion</a></li>
+      </ul>
+    </div>
+    <i class="fa-solid fa-bars"></i>
   </header>
 </template>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/mixins';
+
 header {
   background-color: var(--primary-1);
   color: var(--text-primary-color);
@@ -44,6 +49,12 @@ header {
     img {
       width: 20px;
       margin-right: 5px;
+    }
+
+    i {
+      @include mixins.sm {
+        display: none;
+      }
     }
 
     .logo {
