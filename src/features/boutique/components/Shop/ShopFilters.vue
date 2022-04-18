@@ -62,10 +62,6 @@ const emit = defineEmits<{
 </template>
 
 <style lang="scss" scoped>
-.shop-filter {
-  flex: 0 0 200px;
-}
-
 .category {
   font-size: 14px;
   line-height: 18px;

@@ -21,7 +21,7 @@ const emit = defineEmits<{
   <header class="px-20 flex flex-row items-center">
     <a href="#" class="flex items-center mr-20">
       <img src="../assets/logo.svg" alt="Vue.js Logo" />
-      <span class="logo">Dyma</span>
+      <span class="logo">DymaShop</span>
     </a>
     <div class="flex justify-center items-center flex-1">
       <ul class="flex-1 flex hide-xs">

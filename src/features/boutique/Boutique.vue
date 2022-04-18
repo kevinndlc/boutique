@@ -2,7 +2,7 @@
 import Shop from './components/Shop/Shop.vue';
 import Cart from './components/Cart/Cart.vue';
 
-import { computed, provide, reactive, toRef, watch, watchEffect } from 'vue';
+import { computed, isReactive, isRef, provide, reactive, toRef, watch, watchEffect } from 'vue';
 import type {
   ProductIntf,
   ProductCartIntf,
@@ -39,6 +39,7 @@ provide(pageKey, toRef(state, 'page'));
 watch(state.filters, () => {
   state.products = [];
   state.page = 1;
+  console.log('OK');
 });
 
 watchEffect(async () => {

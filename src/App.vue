@@ -32,7 +32,7 @@ const navigate = (page: Page): void => {
       <Component :is="pages[state.page]" />
     </Suspense>
   </main>
-  <TheFooter class="footer" />
+  <TheFooter class="footer hide-xs" />
 </template>
 
 <style lang="scss">

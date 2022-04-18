@@ -2,6 +2,7 @@
 import type { ProductCartIntf } from '@/interfaces';
 import { computed, reactive } from 'vue';
 import CartProductList from './CartProductList.vue';
+import Calc from '@/components/Calc.vue';
 
 const state = reactive<{
   open: boolean;
@@ -38,9 +39,7 @@ const totalPrice = computed(() =>
         </svg>
       </div>
       <div v-else>
-        <Teleport to="body">
-          <div class="calc" @click="state.open = false"></div>
-        </Teleport>
+        <Calc :open="true" @close="state.open = false"/>
         <div class="p-20 flex flex-col card ml-20">
           <h2 class="mb-10">Panier</h2>
           <CartProductList
@@ -62,13 +61,6 @@ const totalPrice = computed(() =>
   bottom: 20px;
   right: 20px;
   z-index: 2;
-}
-
-.calc {
-  position: fixed;
-  inset: 0;
-  background-color: hsl(0deg 0% 30% / 0.4);
-  z-index: 1;
 }
 
 .cart-holder {
