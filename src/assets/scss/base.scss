@@ -147,6 +147,12 @@ label {
     margin-right: 10px * $i;
   }
 }
+// MARGIN LEFT
+@for $i from 1 through 5 {
+  .ml-#{$i * 10} {
+    margin-left: 10px * $i;
+  }
+}
 
 // BUTTONS
 .btn {

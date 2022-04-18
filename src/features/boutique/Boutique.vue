@@ -24,37 +24,37 @@ const state = reactive<{
   filters: FiltersIntf;
   page: number;
   isLoading: boolean;
-  moreResults: boolean
+  moreResults: boolean;
 }>({
   products: [],
   cart: [],
   filters: { ...DEFAULT_FILTERS },
   page: 1,
   isLoading: false,
-  moreResults: true
+  moreResults: true,
 });
 
-provide(pageKey, toRef(state, 'page'))
+provide(pageKey, toRef(state, 'page'));
 
 watch(state.filters, () => {
-  state.products = []
-  state.page = 1
-})
+  state.products = [];
+  state.page = 1;
+});
 
 watchEffect(async () => {
-  state.isLoading = true
+  state.isLoading = true;
   const products = await fetchProducts(state.filters, state.page);
   if (Array.isArray(products)) {
     state.products = [...state.products, ...products];
     if (products.length < 20) {
-      state.moreResults = false
+      state.moreResults = false;
     } else {
-      state.moreResults = true
+      state.moreResults = true;
     }
   } else {
     state.products = [...state.products, products];
   }
-  state.isLoading = false
+  state.isLoading = false;
 });
 
 const addProductToCart = (productId: string): void => {
@@ -99,9 +99,7 @@ const updateFilter = (filterUpdate: FilterUpdateIntf): void => {
 const filteredProducts = computed(() => {
   return state.products.filter((product) => {
     if (
-      product.title
-        .toLowerCase()
-        .startsWith(state.filters.search.toLowerCase())
+      product.title.toLowerCase().startsWith(state.filters.search.toLowerCase())
     ) {
       return true;
     } else {
@@ -123,7 +121,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="boutique-container" :class="{ 'grid-empty': cartEmpty }">
+  <div>
     <Shop
       :products="filteredProducts"
       :filters="state.filters"
@@ -137,23 +135,8 @@ watchEffect(() => {
       v-if="!cartEmpty"
       @remove-product-from-cart="removeProductFromCart"
       :cart="state.cart"
-      class="cart"
     />
   </div>
 </template>
 
-<style scoped lang="scss">
-.boutique-container {
-  display: grid;
-  grid-template-columns: 75% 25%;
-
-  &.grid-empty {
-    grid-template-columns: 100%;
-  }
-
-  .cart {
-    background-color: var(--white);
-    border-left: var(--border);
-  }
-}
-</style>
+<style scoped lang="scss"></style>
