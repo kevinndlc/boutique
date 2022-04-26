@@ -36,10 +36,9 @@ const state = reactive<{
 
 provide(pageKey, toRef(state, 'page'));
 
-watch(state.filters, () => {
+watch(() => state.filters.category && state.filters.priceRange, () => {
   state.products = [];
   state.page = 1;
-  console.log('OK');
 });
 
 watchEffect(async () => {
@@ -130,7 +129,6 @@ watchEffect(() => {
       @update-filter="updateFilter"
       @add-product-to-cart="addProductToCart"
       @inc-page="state.page++"
-      class="shop"
     />
     <Cart
       v-if="!cartEmpty"
@@ -139,5 +137,3 @@ watchEffect(() => {
     />
   </div>
 </template>
-
-<style scoped lang="scss"></style>

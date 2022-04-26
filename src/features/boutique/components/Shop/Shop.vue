@@ -7,8 +7,10 @@ import Calc from '@/components/Calc.vue';
 
 const state = reactive<{
   open: boolean;
+  isMobile: boolean;
 }>({
-  open: false,
+  open: !matchMedia('(max-width: 575px)').matches,
+  isMobile: matchMedia('(max-width: 575px)').matches
 });
 
 defineProps<{
@@ -26,15 +28,17 @@ const emit = defineEmits<{
 
 <template>
   <div class="shop flex">
-    <Calc :open="state.open" @close="state.open = false" transparent/>
-    <ShopFilters
-      v-if="state.open"
-      :filters="filters"
-      :nbr-of-products="products.length"
-      @update-filter="emit('updateFilter', $event)"
-      class="shop-filter"
-    />
-    <div class="flex flex-col">
+    <Calc :open="state.isMobile && state.open" @close="state.open = false" transparent/>
+    <Transition>
+      <ShopFilters
+        v-if="state.open"
+        :filters="filters"
+        :nbr-of-products="products.length"
+        @update-filter="emit('updateFilter', $event)"
+        class="shop-filter"
+      />
+    </Transition>
+    <div class="flex flex-col flex-1">
       <button @click="state.open = !state.open" class="btn btn-primary flex justify-center items-center">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <path
@@ -59,7 +63,7 @@ const emit = defineEmits<{
 
 button {
   margin-inline: 20px;
-  margin-block: 10px;
+  margin-block: 20px;
 
   @include mixins.sm {
     display: none;
@@ -87,6 +91,17 @@ svg {
     background-color: white;
     z-index: 2;
   }
+}
+
+.v-enter-from,
+.v-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: transform 0.2s, opacity 0.2s;
 }
 
 .scrollable {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Page } from '@/interfaces';
 import { reactive } from 'vue';
+import Calc from './Calc.vue';
 
 const state = reactive<{
   open: boolean;
@@ -46,6 +47,7 @@ const emit = defineEmits<{
       </ul>
     </div>
     <div class="menu-xs-container">
+      <Calc :open="state.open" @close="state.open = false" transparent />
       <svg
         @click="state.open = !state.open"
         xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +128,7 @@ header {
     top: 20px;
     right: 0;
     color: var(--text-color);
-    z-index: 10;
+    z-index: 2;
     user-select: none;
 
     li {

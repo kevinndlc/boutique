@@ -4,7 +4,7 @@ import ProductForm from "./components/ProductForm.vue";
 </script>
 
 <template>
-  <div class="admin-container flex justify-center items-center">
+  <div class="admin-container flex justify-center items-center p-20">
     <ProductForm />
   </div>
 </template>
