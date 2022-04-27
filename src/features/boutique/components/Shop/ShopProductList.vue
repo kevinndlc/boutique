@@ -36,7 +36,7 @@ watch(page, () => {
     </div>
     <div class="flex items-center justify-center">
       <button
-        v-if="moreResults"
+        v-if="moreResults && products.length"
         @click="emit('incPage')"
         class="btn btn-primary"
       >
