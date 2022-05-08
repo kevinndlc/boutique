@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Page } from '@/interfaces';
 import { reactive } from 'vue';
 import Calc from './Calc.vue';
 
@@ -8,14 +7,6 @@ const state = reactive<{
 }>({
   open: false,
 });
-
-defineProps<{
-  page: Page;
-}>();
-
-const emit = defineEmits<{
-  (e: 'navigate', page: Page): void;
-}>();
 </script>
 
 <template>
@@ -27,18 +18,14 @@ const emit = defineEmits<{
     <div class="flex justify-center items-center flex-1">
       <ul class="flex-1 flex hide-xs">
         <li class="mr-10">
-          <a
-            :class="{ active: page === 'Boutique' }"
-            @click="emit('navigate', 'Boutique')"
-            >Boutique</a
-          >
+          <router-link to="/boutique">
+            Boutique
+          </router-link>
         </li>
         <li>
-          <a
-            :class="{ active: page === 'Admin' }"
-            @click="emit('navigate', 'Admin')"
-            >Admin</a
-          >
+          <router-link to="/admin">
+            Admin
+          </router-link>
         </li>
       </ul>
       <ul class="flex hide-xs">
@@ -61,20 +48,14 @@ const emit = defineEmits<{
       <Transition>
         <ul @click="state.open = false" v-if="state.open" class="menu card">
           <li class="mr-10">
-            <a
-              :class="{ active: page === 'Boutique' }"
-              @click="emit('navigate', 'Boutique')"
-            >
+            <router-link to="/boutique">
               Boutique
-            </a>
+            </router-link>
           </li>
           <li>
-            <a
-              :class="{ active: page === 'Admin' }"
-              @click="emit('navigate', 'Admin')"
-            >
+            <router-link to="/admin">
               Admin
-            </a>
+            </router-link>
           </li>
           <li class="mr-10"><a>Inscription</a></li>
           <li><a>Connexion</a></li>
@@ -104,7 +85,7 @@ header {
   a {
     cursor: pointer;
 
-    &.active {
+    &.router-link-active {
       text-decoration: underline;
     }
 
