@@ -204,3 +204,7 @@ label {
   background-color: var(--white);
   padding: 30px;
 }
+
+a.router-link-active {
+  text-decoration: underline;
+}

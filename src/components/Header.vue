@@ -85,10 +85,6 @@ header {
   a {
     cursor: pointer;
 
-    &.router-link-active {
-      text-decoration: underline;
-    }
-
     img {
       width: 20px;
       margin-right: 5px;
