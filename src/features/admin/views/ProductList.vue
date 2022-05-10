@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { deleteProduct, useFetchProducts } from '@/shared/services/product.service';
+import { useRouter } from 'vue-router';
 
 const { products, loading, error } = useFetchProducts();
+const router = useRouter()
 
 async function tryDeleteProduct(productId: string) {
   await deleteProduct(productId);
   products.value = products.value!.filter(p => p._id !== productId)
+}
+
+function editProduct(productId: string) {
+  router.push({ name: "edit", params: { productId } });
 }
 </script>
 
@@ -21,7 +27,7 @@ async function tryDeleteProduct(productId: string) {
         :key="product._id"
       >
         <span class="flex-1">{{ product.title }}</span>
-        <button class="btn btn-primary mr-10">Modifier</button>
+        <button @click="editProduct(product._id)" class="btn btn-primary mr-10">Modifier</button>
         <button @click="tryDeleteProduct(product._id)" class="btn btn-danger">Supprimer</button>
       </li>
     </ul>

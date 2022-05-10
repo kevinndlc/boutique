@@ -6,7 +6,9 @@ import AdminNav from "./components/AdminNav.vue";
   <div class="admin-container flex p-20">
     <AdminNav class="admin-nav" />
     <div class="admin-main flex-1 flex justify-center items-center">
-      <router-view></router-view>
+      <router-view v-slot="{ Component, route }">
+        <Component :is="Component" :key="route.fullPath" />
+      </router-view>
     </div>
   </div>
 </template>

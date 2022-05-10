@@ -3,12 +3,31 @@ import { useForm, useField } from 'vee-validate';
 import { z } from 'zod';
 import { toFormValidator } from '@vee-validate/zod';
 import { onMounted, ref } from 'vue';
+import { addProduct, editProduct, getProduct } from '@/shared/services/product.service';
+import type { ProductIntf, ProductFormIntf } from '@/interfaces';
+import { useRoute, useRouter } from 'vue-router';
 
 const firstInput = ref<HTMLInputElement | null>(null);
 
+const route = useRoute();
+const router = useRouter();
+const product = ref<ProductIntf | null>(null)
+
+if (route.params.productId) {
+  product.value = await getProduct(route.params.productId as string)
+}
+
+const initialValues = {
+  title: product.value ? product.value.title : '',
+  image: product.value ? product.value.image : '',
+  price: product.value ? product.value.price : 0,
+  description: product.value ? product.value.description : '',
+  category: product.value ? product.value.category : 'desktop'
+}
+
 onMounted(() => {
   firstInput.value?.focus();
-})
+});
 
 const required = { required_error: 'Veuillez renseigner ce champ' };
 
@@ -32,6 +51,7 @@ const validationSchema = toFormValidator(
 
 const { handleSubmit, isSubmitting } = useForm({
   validationSchema,
+  initialValues
 });
 
 const title = useField('title');
@@ -42,15 +62,12 @@ const category = useField('category');
 
 const trySubmit = handleSubmit(async (formValues, { resetForm }) => {
   try {
-    await fetch('https://restapi.fr/api/products', {
-      method: 'POST',
-      body: JSON.stringify(formValues),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    resetForm();
-    firstInput.value?.focus();
+    if (!product.value) {
+      await addProduct(formValues);
+    } else {
+      await editProduct(product.value._id, formValues);
+    }
+    router.push('/admin/productlist')
   } catch (error) {
     console.error(error);
   }
@@ -59,7 +76,7 @@ const trySubmit = handleSubmit(async (formValues, { resetForm }) => {
 
 <template>
   <div class="card">
-    <h3 class="mb-20">Ajouter un article</h3>
+    <h3 class="mb-20">{{ product ? 'Editer un produit' : 'Créer un produit'}}</h3>
     <form @submit="trySubmit">
       <div class="flex flex-col mb-20">
         <label class="mb-5" for="title">Titre</label>

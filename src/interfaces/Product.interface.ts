@@ -9,3 +9,11 @@ export interface ProductIntf {
   description: string;
   category: Category;
 }
+
+export interface ProductFormIntf {
+  title: string;
+  image: string;
+  price: number;
+  description: string;
+  category: Category;
+}
