@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { useFetchProducts } from '@/shared/services/product.service';
+import { deleteProduct, useFetchProducts } from '@/shared/services/product.service';
 
 const { products, loading, error } = useFetchProducts();
+
+async function tryDeleteProduct(productId: string) {
+  await deleteProduct(productId);
+  products.value = products.value!.filter(p => p._id !== productId)
+}
 </script>
 
 <template>
@@ -17,7 +22,7 @@ const { products, loading, error } = useFetchProducts();
       >
         <span class="flex-1">{{ product.title }}</span>
         <button class="btn btn-primary mr-10">Modifier</button>
-        <button class="btn btn-danger">Supprimer</button>
+        <button @click="tryDeleteProduct(product._id)" class="btn btn-danger">Supprimer</button>
       </li>
     </ul>
   </div>
