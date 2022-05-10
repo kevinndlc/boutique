@@ -3,8 +3,9 @@
 </script>
 
 <template>
-  <nav class="card">
+  <nav class="card flex flex-col">
     <h3 class="mb-20">Produits</h3>
+    <router-link class="mb-10" to="/admin/productlist">Liste des produits</router-link>
     <router-link class="mb-10" to="/admin/addproduct">Ajouter un produit</router-link>
   </nav>
 </template>
