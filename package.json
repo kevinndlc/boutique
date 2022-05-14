@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@vee-validate/zod": "^4.5.11",
+    "pinia": "^2.0.14",
     "vee-validate": "^4.5.11",
     "vue": "^3.2.31",
     "vue-router": "^4.0.14",
