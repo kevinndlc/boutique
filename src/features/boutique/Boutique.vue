@@ -19,10 +19,10 @@ const cartStore = useCart()
 
 // provide(pageKey, toRef(state, 'page'));
 
-watch(() => state.filters.category && state.filters.priceRange, () => {
-  state.products = [];
-  state.page = 1;
-});
+// watch(() => state.filters.category && state.filters.priceRange, () => {
+//   state.products = [];
+//   state.page = 1;
+// });
 
 // watchEffect(async () => {
 //   state.isLoading = true;
