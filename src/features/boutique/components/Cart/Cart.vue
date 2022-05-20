@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ProductCartIntf } from '@/interfaces';
+import type { ProductCartIntf } from '@/shared/interfaces';
 import { computed, reactive } from 'vue';
 import CartProductList from './CartProductList.vue';
 import Calc from '@/components/Calc.vue';

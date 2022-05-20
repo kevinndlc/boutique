@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ProductCartIntf } from '@/interfaces';
+import type { ProductCartIntf } from '@/shared/interfaces';
 import CartProduct from './CartProduct.vue';
 
 defineProps<{

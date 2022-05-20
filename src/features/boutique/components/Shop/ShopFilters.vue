@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FiltersIntf, FilterUpdateIntf, Category } from '@/interfaces';
+import type { FiltersIntf, FilterUpdateIntf, Category } from '@/shared/interfaces';
 
 defineProps<{
   filters: FiltersIntf;

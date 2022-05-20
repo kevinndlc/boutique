@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { ProductIntf } from '@/interfaces';
-import { pageKey } from '@/shared/injectionKeys/pageKey';
-import { inject, onUpdated, ref, watch } from 'vue';
+import type { ProductIntf } from '@/shared/interfaces';
+import { ref, watch } from 'vue';
 import ShopProduct from './ShopProduct.vue';
 
-defineProps<{
+const props = defineProps<{
   products: ProductIntf[];
+  page: number,
   moreResults: boolean;
 }>();
 
@@ -14,11 +14,10 @@ const emit = defineEmits<{
   (e: 'incPage'): void;
 }>();
 
-const page = inject(pageKey)!;
 const scrollableDiv = ref<HTMLDivElement | null>(null);
 
-watch(page, () => {
-  if (page.value === 1) {
+watch(() => props.page, () => {
+  if (props.page === 1) {
     scrollableDiv.value?.scrollTo(0, 0);
   }
 });

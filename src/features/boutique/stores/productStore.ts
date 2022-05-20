@@ -60,5 +60,8 @@ export const useProducts = defineStore('products', {
         this.filters = { ...DEFAULT_FILTERS };
       }
     },
+    incPage() {
+      this.page++;
+    }
   },
 });

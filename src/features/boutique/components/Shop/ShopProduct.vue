@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ProductIntf } from '@/interfaces';
+import type { ProductIntf } from '@/shared/interfaces';
 
 defineProps<{
   product: ProductIntf

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FiltersIntf, FilterUpdateIntf, ProductIntf } from '@/interfaces';
+import type { FiltersIntf, FilterUpdateIntf, ProductIntf } from '@/shared/interfaces';
 import ShopProductList from './ShopProductList.vue';
 import ShopFilters from './ShopFilters.vue';
 import { reactive } from 'vue';
@@ -17,6 +17,7 @@ defineProps<{
   products: ProductIntf[];
   filters: FiltersIntf;
   moreResults: boolean;
+  page: number;
 }>();
 
 const emit = defineEmits<{
@@ -53,6 +54,7 @@ const emit = defineEmits<{
         @inc-page="emit('incPage')"
         :products="products"
         :more-results="moreResults"
+        :page="page"
       />
     </div>
   </div>

@@ -2,51 +2,60 @@
 import Shop from './components/Shop/Shop.vue';
 import Cart from './components/Cart/Cart.vue';
 
-import { computed, isReactive, isRef, provide, reactive, toRef, watch, watchEffect } from 'vue';
-import type {
-  ProductIntf,
-  ProductCartIntf,
-  FiltersIntf,
-  FilterUpdateIntf,
-} from '../../interfaces';
-import { fetchProducts } from '@/shared/services/product.service';
-import { pageKey } from '@/shared/injectionKeys/pageKey';
 import { useProducts } from './stores/productStore';
 import { useCart } from './stores/cartStore';
+import type { FilterUpdateIntf } from '@/shared/interfaces';
 
-const productStore = useProducts()
-const cartStore = useCart()
+const productStore = useProducts();
+productStore.fetchProducts();
+const cartStore = useCart();
 
-// watch(() => state.filters.category && state.filters.priceRange, () => {
-//   state.products = [];
-//   state.page = 1;
-// });
+function updateFilter(filterUpdate: FilterUpdateIntf) {
+  productStore.updateFilter(filterUpdate);
+}
 
+function incPage() {
+  productStore.incPage();
+}
 
-// const appElement = document.getElementById('app') as HTMLDivElement;
-// watchEffect(() => {
-//   if (cartEmpty.value) {
-//     appElement.classList.add('gridEmpty');
-//   } else {
-//     appElement.classList.remove('gridEmpty');
-//   }
-// });
+function addProductToCart(productId: string) {
+  cartStore.addProductToCart(productId);
+}
+
+function removeProductFromCart(productId: string) {
+  cartStore.removeProductFromCart(productId);
+}
+
+productStore.$onAction(({ name, after, args }) => {
+  if (name === 'updateFilter' && !args[0].search) {
+    after(() => {
+      productStore.page = 1;
+      productStore.products = [];
+      productStore.fetchProducts();
+    });
+  } else if (name === 'incPage') {
+    after(() => {
+      productStore.fetchProducts();
+    });
+  }
+});
 </script>
 
 <template>
   <div>
     <Shop
-      :products="filteredProducts"
-      :filters="state.filters"
-      :more-results="state.moreResults"
+      :products="productStore.filteredProducts"
+      :filters="productStore.filters"
+      :more-results="productStore.moreResults"
+      :page="productStore.page"
       @update-filter="updateFilter"
       @add-product-to-cart="addProductToCart"
-      @inc-page="state.page++"
+      @inc-page="incPage"
     />
     <Cart
-      v-if="!cartEmpty"
+      v-if="!cartStore.cartEmpty"
       @remove-product-from-cart="removeProductFromCart"
-      :cart="state.cart"
+      :cart="cartStore.cart"
     />
   </div>
 </template>
