@@ -1,5 +1,5 @@
 import type { FiltersIntf, FilterUpdateIntf, ProductIntf } from '@/shared/interfaces';
-import { fetchProducts } from '@/shared/services/product.service';
+import { fetchProductsWithFilter } from '@/shared/services/product.service';
 import { defineStore } from 'pinia';
 
 interface ProductState {
@@ -36,7 +36,7 @@ export const useProducts = defineStore('products', {
   actions: {
     async fetchProducts() {
       this.isLoading = true;
-      const products = await fetchProducts(this.filters, this.page);
+      const products = await fetchProductsWithFilter(this.filters, this.page);
       if (Array.isArray(products)) {
         this.products = [...this.products, ...products];
         if (products.length < 20) {

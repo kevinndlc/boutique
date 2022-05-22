@@ -4,14 +4,16 @@ import { z } from 'zod';
 import { toFormValidator } from '@vee-validate/zod';
 import { onMounted, ref } from 'vue';
 import { addProduct, editProduct, getProduct } from '@/shared/services/product.service';
-import type { ProductIntf, ProductFormIntf } from '@/shared/interfaces';
+import type { ProductIntf } from '@/shared/interfaces';
 import { useRoute, useRouter } from 'vue-router';
+import { useAdminProducts } from '../stores/adminProductStore';
 
 const firstInput = ref<HTMLInputElement | null>(null);
+const product = ref<ProductIntf | null>(null)
 
 const route = useRoute();
 const router = useRouter();
-const product = ref<ProductIntf | null>(null)
+const adminProductStore = useAdminProducts();
 
 if (route.params.productId) {
   product.value = await getProduct(route.params.productId as string)
@@ -63,9 +65,9 @@ const category = useField('category');
 const trySubmit = handleSubmit(async (formValues, { resetForm }) => {
   try {
     if (!product.value) {
-      await addProduct(formValues);
+      await adminProductStore.addProduct(formValues)
     } else {
-      await editProduct(product.value._id, formValues);
+      await adminProductStore.editProduct(product.value._id, formValues)
     }
     router.push('/admin/productlist')
   } catch (error) {

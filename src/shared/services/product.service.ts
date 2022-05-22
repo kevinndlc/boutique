@@ -1,9 +1,8 @@
-import type { FiltersIntf, ProductFormIntf, ProductIntf } from '@/interfaces';
-import { ref, type Ref } from 'vue';
+import type { FiltersIntf, ProductFormIntf, ProductIntf } from '@/shared/interfaces';
 
 const BASE_URL = 'https://restapi.fr/api/shop';
 
-export async function fetchProducts(
+export async function fetchProductsWithFilter(
   filter: FiltersIntf,
   page: number
 ): Promise<ProductIntf[] | ProductIntf> {
@@ -24,30 +23,8 @@ export async function fetchProducts(
   return products;
 }
 
-export function useFetchProducts(): {
-  products: Ref<ProductIntf[] | null>;
-  loading: Ref<boolean>;
-  error: Ref<any>;
-} {
-  const products = ref<ProductIntf[] | null>(null);
-  const loading = ref<boolean>(true);
-  const error = ref<any>(null);
-
-  (async () => {
-    try {
-      products.value = await (await fetch(BASE_URL)).json();
-    } catch (e) {
-      error.value = e;
-    } finally {
-      loading.value = false;
-    }
-  })();
-
-  return {
-    products,
-    loading,
-    error,
-  };
+export async function fetchProducts(): Promise<ProductIntf[]> {
+  return await (await fetch(BASE_URL)).json();
 }
 
 export async function deleteProduct(productId: string): Promise<string> {
