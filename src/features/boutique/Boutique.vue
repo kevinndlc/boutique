@@ -7,7 +7,6 @@ import { useCart } from './stores/cartStore';
 import type { FilterUpdateIntf } from '@/shared/interfaces';
 
 const productStore = useProducts();
-productStore.fetchProducts();
 const cartStore = useCart();
 
 function updateFilter(filterUpdate: FilterUpdateIntf) {
@@ -27,7 +26,7 @@ function removeProductFromCart(productId: string) {
 }
 
 productStore.$onAction(({ name, after, args }) => {
-  if (name === 'updateFilter' && !args[0].search) {
+  if (name === 'updateFilter' && args[0].search === undefined) {
     after(() => {
       productStore.page = 1;
       productStore.products = [];

@@ -1,4 +1,9 @@
-import type { FiltersIntf, FilterUpdateIntf, ProductIntf } from '@/shared/interfaces';
+import products from '@/shared/data/products';
+import type {
+  FiltersIntf,
+  FilterUpdateIntf,
+  ProductIntf,
+} from '@/shared/interfaces';
 import { fetchProductsWithFilter } from '@/shared/services/product.service';
 import { defineStore } from 'pinia';
 
@@ -8,6 +13,8 @@ interface ProductState {
   page: number;
   isLoading: boolean;
   moreResults: boolean;
+  loaded: boolean;
+  needRefresh: boolean;
 }
 
 const DEFAULT_FILTERS: FiltersIntf = {
@@ -23,6 +30,8 @@ export const useProducts = defineStore('products', {
     page: 1,
     isLoading: true,
     moreResults: true,
+    loaded: false,
+    needRefresh: false,
   }),
   getters: {
     filteredProducts(state) {
@@ -62,6 +71,19 @@ export const useProducts = defineStore('products', {
     },
     incPage() {
       this.page++;
-    }
+    },
   },
 });
+
+export function initialFetchProducts() {
+  const productStore = useProducts();
+  if (!productStore.loaded || productStore.needRefresh) {
+    productStore.fetchProducts();
+    productStore.loaded = true;
+    if (productStore.needRefresh) {
+      productStore.page = 1;
+      productStore.products = [];
+      productStore.needRefresh = false;
+    }
+  }
+}

@@ -3,7 +3,7 @@ import { useForm, useField } from 'vee-validate';
 import { z } from 'zod';
 import { toFormValidator } from '@vee-validate/zod';
 import { onMounted, ref } from 'vue';
-import { addProduct, editProduct, getProduct } from '@/shared/services/product.service';
+import { getProduct } from '@/shared/services/product.service';
 import type { ProductIntf } from '@/shared/interfaces';
 import { useRoute, useRouter } from 'vue-router';
 import { useAdminProducts } from '../stores/adminProductStore';

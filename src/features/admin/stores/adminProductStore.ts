@@ -1,16 +1,19 @@
 import { defineStore } from 'pinia';
 import type { ProductFormIntf, ProductIntf } from '@/shared/interfaces';
 import { addProduct, deleteProduct, editProduct, fetchProducts } from '@/shared/services/product.service';
+import { useProducts } from '@/features/boutique/stores/productStore';
 
 interface AdminProductState {
   products: ProductIntf[];
   isLoading: boolean;
+  loaded: boolean;
 }
 
 export const useAdminProducts = defineStore('adminProduct', {
   state: (): AdminProductState => ({
     products: [],
     isLoading: false,
+    loaded: false
   }),
   actions: {
     async fetchProducts() {
@@ -31,17 +34,29 @@ export const useAdminProducts = defineStore('adminProduct', {
       }
     },
     async addProduct(productForm: ProductFormIntf) {
+      const productStore = useProducts();
       const newProduct = await addProduct(productForm);
       if (newProduct) {
+        productStore.needRefresh = true;
         this.products.push(newProduct);
       }
     },
     async editProduct(productId: string, productForm: ProductFormIntf) {
+      const productStore = useProducts();
       const editedProduct = await editProduct(productId, productForm)
       if (editedProduct) {
+        productStore.needRefresh = true;
         const stateProductIndex = this.products.findIndex(p => p._id === editedProduct._id);
         this.products[stateProductIndex] = editedProduct;
       }
     }
   },
 });
+
+export function initialFetchAdminProducts() {
+  const adminProductStore = useAdminProducts();
+  if (!adminProductStore.loaded) {
+    adminProductStore.fetchProducts();
+    adminProductStore.loaded = true;
+  }
+}

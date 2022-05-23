@@ -3,7 +3,6 @@ import { useAdminProducts } from "../stores/adminProductStore";
 import { useRouter } from 'vue-router';
 
 const adminProductStore = useAdminProducts();
-adminProductStore.fetchProducts();
 
 async function tryDeleteProduct(productId: string) {
   adminProductStore.deleteProduct(productId);
